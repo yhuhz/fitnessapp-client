@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Logout from './pages/Logout';
 import Error from './pages/Error';
+import Footer from './components/Footer';
 import './App.css';
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
             <Route path="/*" element={<Error />} />
           </Routes>
         </Container>
+        <Footer />
       </Router>
     </UserProvider>
   );

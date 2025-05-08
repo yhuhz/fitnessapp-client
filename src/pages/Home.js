@@ -92,10 +92,13 @@ export default function Home() {
           />
           <h1>Welcome to FitCheck!</h1>
           <div className="d-flex justify-content-center">
-            <p className="text-light text-center" style={{ maxWidth: '400px' }}>
+            <h6
+              className="text-light text-center py-3"
+              style={{ maxWidth: '400px' }}
+            >
               Your personal fitness companion, designed to keep you accountable,
               motivated, and crushing those goals.
-            </p>
+            </h6>
           </div>
 
           {user.id !== null ? (
