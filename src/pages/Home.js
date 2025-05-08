@@ -22,7 +22,6 @@ export default function Home() {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           if (Array.isArray(data.workouts)) {
             setWorkoutData(
               data.workouts.map((workout) => {
