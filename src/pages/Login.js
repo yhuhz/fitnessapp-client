@@ -114,7 +114,7 @@ export default function Login() {
             )}
           </Form>
 
-          <h6 className="mt-3">
+          <h6 className="mt-3 text-center">
             Don't have an account yet? Click <Link to="/register">here</Link>
           </h6>
         </Card.Body>

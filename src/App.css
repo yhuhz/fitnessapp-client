@@ -1,8 +1,4 @@
-/* Montserat Import*/
-@import url('https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
-/* Roboto Import*/
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
 html {
   ::-webkit-scrollbar {
@@ -24,33 +20,48 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-  color: #eaeaea !important;
-}
-
-.text-dark-important {
-  color: #000000 !important;
 }
 
 h1,
-h2,
-h3,
 h4,
-h5,
-h6 {
-  font-family: 'Montserat', sans-serif;
-  color: #eaeaea !important;
+span {
+  color: #f9b464 !important;
 }
 
+h1,
+h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 2px;
+}
+
+span {
+  font-family: 'Exo 2', sans-serif !important;
+}
+
+.btn-warning {
+  background-color: #f9b464 !important;
+}
+
+h6,
 p,
-span,
 div {
-  font-family: 'Roboto', sans-serif;
-  color: #eaeaea !important;
+  font-family: 'Rubik', sans-serif;
+  color: white !important;
+}
+
+.navbar-link,
+.navbar-brand-title {
+  font-family: 'Rubik', sans-serif;
+  color: #1a1a1a !important;
+}
+
+.navbar-link:hover,
+.navbar-brand-title:hover {
+  color: #1a1a1aa8 !important;
 }
 
 th {
   background-color: gray !important;
-  color: white !important;
 }
 
 body,

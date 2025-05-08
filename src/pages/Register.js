@@ -50,6 +50,8 @@ export default function Register() {
           data.message === 'Password must be atleast 8 characters long'
         ) {
           notyf.error('Password must be atleast 8 characters long');
+        } else if (data.message === 'Email already in use') {
+          notyf.error('Email already in use');
         } else {
           notyf.error('Internal Server Error. Notify system admin.');
         }
@@ -111,7 +113,7 @@ export default function Register() {
               Register
             </Button>
           </Form>
-          <h6 className="mt-3">
+          <h6 className="mt-3 text-center">
             Already have an account? Click <Link to="/login">here</Link>
           </h6>
         </Card.Body>
