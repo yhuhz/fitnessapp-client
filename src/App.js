@@ -1,22 +1,75 @@
+import { useState, useEffect } from 'react';
+import { Container } from 'react-bootstrap';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { UserProvider } from './UserContext';
+import AppNavbar from './components/AppNavbar';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Logout from './pages/Logout';
+import Error from './pages/Error';
 import './App.css';
 
 function App() {
+  const [user, setUser] = useState({
+    id: null,
+  });
+
+  function unsetUser() {
+    localStorage.clear();
+    setUser({
+      id: null,
+    });
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      // Set temporary user state before fetching to prevent redirection
+      setUser((prevUser) => ({
+        ...prevUser,
+        id: localStorage.getItem('userId') || prevUser.id,
+      }));
+
+      fetch(`${process.env.REACT_APP_API_BASE_URL}/users/details`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?._id) {
+            localStorage.setItem('userId', data._id);
+
+            setUser({ id: data._id });
+          } else {
+            localStorage.clear();
+            setUser({ id: null });
+          }
+        })
+        .catch(() => {
+          localStorage.clear();
+          setUser({ id: null });
+        });
+    } else {
+      setUser({ id: null });
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserProvider value={{ user, setUser, unsetUser }}>
+      <Router>
+        <AppNavbar />
+        <Container>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/*" element={<Error />} />
+          </Routes>
+        </Container>
+      </Router>
+    </UserProvider>
   );
 }
 

@@ -1,9 +1,9 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
 import { useState, useEffect, useContext } from 'react';
-import { Navigate } from 'react-router-dom';
-import UserContext from '../context/UserContext';
+import { Navigate, Link } from 'react-router-dom';
+import UserContext from '../UserContext';
 import { Notyf } from 'notyf';
 
 export default function Login() {
@@ -25,7 +25,7 @@ export default function Login() {
 
   function loginUser(e) {
     e.preventDefault();
-    fetch('http://localhost:4000/users/login', {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/users/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -36,7 +36,6 @@ export default function Login() {
       .then((res) => res.json())
       .then((data) => {
         if (data.access !== undefined) {
-          // console.log( data.access);
           localStorage.setItem('token', data.access);
           retrieveUserDetails(data.access);
 
@@ -54,7 +53,7 @@ export default function Login() {
   }
 
   function retrieveUserDetails(token) {
-    fetch('http://localhost:4000/users/details', {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/users/details`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -66,57 +65,60 @@ export default function Login() {
       });
   }
 
-  return (
-    // localStorage.getItem('token') !== null?
-    // <Navigate to="/courses"/>
-    // :
-    user.id !== null ? (
-      <Navigate to="/courses" />
-    ) : (
-      <>
-        <Row className="justify-content-center mt-5">
-          <Col md={6} className="text-center">
-            <h1 className="mb-4">Login</h1>
-          </Col>
-        </Row>
+  return user.id !== null ? (
+    <Navigate to="/" />
+  ) : (
+    <div className="d-flex justify-content-center mt-5">
+      <Card
+        className="p-4 bg-dark text-dark-important"
+        style={{ width: '400px' }}
+      >
+        <Card.Body>
+          <Row className="justify-content-center">
+            <Col md={12} className="text-center">
+              <h1 className="mb-4">Login</h1>
+            </Col>
+          </Row>
 
-        <Form onSubmit={(e) => loginUser(e)}>
-          <Form.Group className="mb-3" controlId="formEmail">
-            <Form.Label>Email Address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              required
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              required
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            ></Form.Control>
-          </Form.Group>
+          <Form onSubmit={(e) => loginUser(e)}>
+            <Form.Group className="mb-3" controlId="formEmail">
+              <Form.Label>Email Address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Group>
 
-          {isActive ? (
-            <Button variant="primary" type="submit">
-              Login
-            </Button>
-          ) : (
-            <Button variant="danger" type="submit" disabled>
-              Login
-            </Button>
-          )}
-        </Form>
-      </>
-    )
+            <Form.Group className="mb-3" controlId="formPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Form.Group>
+
+            {isActive ? (
+              <Button variant="primary" type="submit" className="w-100">
+                Login
+              </Button>
+            ) : (
+              <Button variant="danger" type="submit" className="w-100" disabled>
+                Login
+              </Button>
+            )}
+          </Form>
+
+          <h6 className="mt-3">
+            Don't have an account yet? Click <Link to="/register">here</Link>
+          </h6>
+        </Card.Body>
+      </Card>
+    </div>
   );
 }
