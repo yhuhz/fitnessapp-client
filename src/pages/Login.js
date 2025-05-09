@@ -60,7 +60,6 @@ export default function Login() {
       .then((data) => {
         setUser({
           id: data._id,
-          isAdmin: data.isAdmin,
         });
       });
   }

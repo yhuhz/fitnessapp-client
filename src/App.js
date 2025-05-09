@@ -18,41 +18,25 @@ function App() {
 
   function unsetUser() {
     localStorage.clear();
-    setUser({
-      id: null,
-    });
   }
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      // Set temporary user state before fetching to prevent redirection
-      setUser((prevUser) => ({
-        ...prevUser,
-        id: localStorage.getItem('userId') || prevUser.id,
-      }));
-
+    if (localStorage.getItem('token') !== null) {
       fetch(`${process.env.REACT_APP_API_BASE_URL}/users/details`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data?._id) {
-            localStorage.setItem('userId', data._id);
-
-            setUser({ id: data._id });
-          } else {
-            localStorage.clear();
-            setUser({ id: null });
-          }
-        })
-        .catch(() => {
-          localStorage.clear();
-          setUser({ id: null });
+          setUser({
+            id: data._id,
+          });
         });
     } else {
-      setUser({ id: null });
+      setUser({
+        id: null,
+      });
     }
   }, []);
 
