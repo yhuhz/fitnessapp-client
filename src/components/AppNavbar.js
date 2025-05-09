@@ -1,5 +1,5 @@
 import Container from 'react-bootstrap/Container';
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { NavLink } from 'react-router-dom';
@@ -8,8 +8,22 @@ import UserContext from '../UserContext';
 export default function AppNavbar() {
   const { user } = useContext(UserContext);
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isMdScreen = screenWidth >= 768; // Bootstrap's md breakpoint
+
   return (
-    <Navbar expand="lg" className="py-0" style={{ backgroundColor: '#f9b464' }}>
+    <Navbar
+      expand={isMdScreen ? 'md' : false}
+      className="py-0"
+      style={{ backgroundColor: '#f9b464' }}
+    >
       <Container>
         <Navbar.Brand
           as={NavLink}
@@ -21,7 +35,7 @@ export default function AppNavbar() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="navbar">
-          <Nav className="ms-auto">
+          <Nav className={isMdScreen ? 'ms-auto' : 'me-auto'}>
             {user.id !== null ? (
               <>
                 <Nav.Link as={NavLink} to="/logout" className="navbar-link">
