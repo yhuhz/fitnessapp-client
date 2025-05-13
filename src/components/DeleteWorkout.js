@@ -32,12 +32,12 @@ export default function DeleteWorkout({ workout, getWorkoutData }) {
     )
       .then((res) => res.json())
       .then((data) => {
-        if (data.success === true) {
-          notyf.success('Workout successfully deleted');
+        if (data.error) {
+          notyf.error('Something went wrong. Please try again');
           getWorkoutData();
           deleteClose();
         } else {
-          notyf.error('Something went wrong. Please try again');
+          notyf.success('Workout successfully deleted');
           getWorkoutData();
           deleteClose();
         }

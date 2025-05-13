@@ -23,13 +23,13 @@ export default function UpdateWorkoutStatus({ workout, getWorkoutData }) {
     )
       .then((res) => res.json())
       .then((data) => {
-        if (data.success) {
+        if (data.error) {
+          notyf.error('Something went wrong. Please try again');
+          getWorkoutData();
+        } else {
           notyf.success('Workout status updated successfully');
           getWorkoutData();
           setStatus(true);
-        } else {
-          notyf.error('Something went wrong. Please try again');
-          getWorkoutData();
         }
       });
   }

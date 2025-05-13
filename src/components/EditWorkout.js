@@ -38,12 +38,12 @@ export default function EditWorkout({ workout, getWorkoutData }) {
     )
       .then((res) => res.json())
       .then((data) => {
-        if (data.success === true) {
-          notyf.success('Successfully Updated');
+        if (data.error) {
+          notyf.error('Something went wrong. Please try again');
           getWorkoutData();
           editClose();
         } else {
-          notyf.error('Something went wrong. Please try again');
+          notyf.success('Successfully Updated');
           getWorkoutData();
           editClose();
         }
